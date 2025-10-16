@@ -17,4 +17,8 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     void deleteAllByIdsInBatch(@Param("reviewIds") List<Long> reviewIds);
 
 
+    //1. 리뷰 작성
+    Review save(Review review);
+
+
 }

@@ -5,6 +5,7 @@ import com.example.umc9th.domain.review.entity.Review;
 import com.example.umc9th.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.BatchSize;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -35,6 +36,7 @@ public class Store extends BaseEntity {
     private Location location;
 
     @OneToMany(mappedBy = "store", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @BatchSize(size=10)
     private Set<Mission> missionList = new HashSet<>();
 
     @OneToMany(mappedBy = "store")

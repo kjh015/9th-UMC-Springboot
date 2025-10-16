@@ -15,14 +15,18 @@ public interface MemberMissionRepository extends JpaRepository<MemberMission, Lo
     @Query("DELETE FROM MemberMission mm WHERE mm.member.id = :memberId")
     void deleteAllByMemberIdInBatch(@Param("memberId") Long memberId);
 
+    //3. 진행 중, 진행 완료 미션
     @Query(value = "SELECT mm FROM MemberMission mm " +
             "JOIN FETCH mm.mission m " +
             "JOIN FETCH m.store " +
-            "WHERE mm.member.id = :memberId " +
-            "ORDER BY m.createdAt DESC ",
-            countQuery = "SELECT count(mm) FROM MemberMission mm WHERE mm.member.id = :memberId")
+            "WHERE mm.member.id = :memberId ",
+            countQuery = "SELECT count(mm) FROM MemberMission mm WHERE mm.member.id = :memberId")   //countQuery 분리(페이징)
     Page<MemberMission> findMemberMissionsByMemberIdWithDetails(Long memberId, Pageable pageable);
 
+    //4-1. 홈 화면 - 해당 지역 달성 미션 개수
+    @Query("SELECT COUNT(mm) FROM MemberMission mm " +
+            "WHERE mm.member.id = :memberId AND mm.mission.store.location.id = :locationId")
+    Long countCompletedMissionsInLocation(Long memberId, Long locationId);
 
 
 }
