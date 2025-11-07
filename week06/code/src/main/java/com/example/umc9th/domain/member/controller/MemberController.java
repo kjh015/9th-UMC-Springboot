@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/auth")
-public class Controller {
+public class MemberController {
     private final MemberService memberService;
 
     @DeleteMapping("/member/{memberId}")

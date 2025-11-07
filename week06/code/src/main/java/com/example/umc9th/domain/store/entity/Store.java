@@ -42,6 +42,30 @@ public class Store extends BaseEntity {
     @OneToMany(mappedBy = "store")
     private Set<Review> reviewList = new HashSet<>();
 
+    @Column(nullable = false)
+    private String sortKey;
+
+    @PrePersist @PreUpdate
+    private void syncSortKey() {
+        this.sortKey = buildSortKey(this.name);
+    }
+    public static String buildSortKey(String name) {
+        if (name == null) return "";
+        name = name.trim();
+
+        StringBuilder sb = new StringBuilder(name.length() * 2);
+        name.codePoints().forEach(cp -> {
+            int bucket =
+                    (cp >= 0xAC00 && cp <= 0xD7A3) ? 1 :                // 가~힣 (완성형)
+                            (cp >= 'A' && cp <= 'Z') ? 2 :
+                                    (cp >= 'a' && cp <= 'z') ? 3 : 4;
+            sb.append((char) ('0' + bucket));
+            // 소문자화(유니코드 안전)
+            sb.append(new String(Character.toChars(Character.toLowerCase(cp))));
+        });
+        return sb.toString();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -8,17 +8,13 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface ReviewRepository extends JpaRepository<Review, Long> {
+public interface ReviewRepository extends JpaRepository<Review, Long>, ReviewQueryDSL {
     @Query("SELECT r.id FROM Review r WHERE r.member.id = :memberId")
     List<Long> findAllIdsByMemberId(@Param("memberId") Long memberId);
 
     @Modifying(clearAutomatically = true)
     @Query("DELETE FROM Review r WHERE r.id IN :reviewIds")
     void deleteAllByIdsInBatch(@Param("reviewIds") List<Long> reviewIds);
-
-
-    //1. 리뷰 작성
-    Review save(Review review);
 
 
 }
