@@ -17,3 +17,8 @@ spring:
     properties:
       hibernate:
         format_sql: true # ???? SQL ??? ?? ?? ???
+
+alert:
+  discord:
+    webhook-url: ${DISCORD_WEBHOOK_URL}
+    enabled: false

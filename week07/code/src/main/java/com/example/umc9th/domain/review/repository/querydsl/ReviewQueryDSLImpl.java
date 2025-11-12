@@ -1,4 +1,4 @@
-package com.example.umc9th.domain.review.repository;
+package com.example.umc9th.domain.review.repository.querydsl;
 
 import com.example.umc9th.domain.review.entity.QReview;
 import com.example.umc9th.domain.review.entity.Review;
@@ -28,10 +28,11 @@ public class ReviewQueryDSLImpl implements ReviewQueryDSL {
         QStore store = QStore.store;
         QLocation location = QLocation.location;
 
+        //join on -> fetchJoin 변경
         return queryFactory
                 .selectFrom(review)
-                .join(store).on(store.id.eq(review.store.id))
-                .join(location).on(location.id.eq(store.location.id))
+                .join(review.store, store).fetchJoin()
+                .join(store.location, location).fetchJoin()
                 .where(predicate)
                 .fetch();
     }
@@ -43,9 +44,10 @@ public class ReviewQueryDSLImpl implements ReviewQueryDSL {
         QReview review = QReview.review;
         QStore store = QStore.store;
 
+        //join on -> fetchJoin 변경
         return queryFactory
                 .selectFrom(review)
-                .join(store).on(store.id.eq(review.store.id))
+                .join(review.store, store).fetchJoin()
                 .where(predicate)
                 .fetch();
 

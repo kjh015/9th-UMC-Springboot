@@ -1,9 +1,13 @@
 package com.example.umc9th.domain.store.service;
 
-import com.example.umc9th.domain.store.dto.StoreRequestDto;
+import com.example.umc9th.domain.store.dto.req.StoreReqDTO;
 import com.example.umc9th.domain.store.entity.Location;
 import com.example.umc9th.domain.store.entity.QStore;
 import com.example.umc9th.domain.store.entity.Store;
+import com.example.umc9th.domain.store.exception.LocationException;
+import com.example.umc9th.domain.store.exception.StoreException;
+import com.example.umc9th.domain.store.exception.code.LocationErrorCode;
+import com.example.umc9th.domain.store.exception.code.StoreErrorCode;
 import com.example.umc9th.domain.store.repository.LocationRepository;
 import com.example.umc9th.domain.store.repository.StoreRepository;
 import com.querydsl.core.BooleanBuilder;
@@ -11,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
@@ -34,6 +39,9 @@ public class StoreService {
             }
             mainBuilder.and(regionBuilder);
         }
+        else{
+            throw new StoreException(StoreErrorCode.REGION_NOT_EXIST);  //Exception 추가
+        }
 
         //2. 검색 - 공백 기준
         if(StringUtils.hasText(keyword)){
@@ -44,20 +52,22 @@ public class StoreService {
             }
             mainBuilder.and(keywordBuilder);
         }
+        else{
+            throw new StoreException(StoreErrorCode.KEYWORD_NOT_EXIST); //Exception 추가
+        }
 
         return storeRepository.searchStores(mainBuilder, sort, pageable);
     }
 
-    public void addStore(StoreRequestDto request){
-        Location location = locationRepository.findById(request.getLocationId()).orElse(null);
-        if(location != null){
-            Store store = Store.builder()
-                    .name(request.getName())
-                    .detailAddress(request.getDetailAddress())
-                    .managerNumber(request.getManagerNumber())
-                    .location(location)
-                    .build();
-            storeRepository.save(store);
-        }
+    @Transactional
+    public Store addStore(StoreReqDTO request){
+        Location location = locationRepository.findById(request.getLocationId()).orElseThrow(() -> new LocationException(LocationErrorCode.LOCATION_NOT_FOUND));
+        Store store = Store.builder()
+                .name(request.getName())
+                .detailAddress(request.getDetailAddress())
+                .managerNumber(request.getManagerNumber())
+                .location(location)
+                .build();
+        return storeRepository.save(store);
     }
 }

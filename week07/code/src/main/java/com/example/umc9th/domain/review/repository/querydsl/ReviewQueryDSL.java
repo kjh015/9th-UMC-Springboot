@@ -1,4 +1,4 @@
-package com.example.umc9th.domain.review.repository;
+package com.example.umc9th.domain.review.repository.querydsl;
 
 import com.example.umc9th.domain.review.entity.Review;
 import com.querydsl.core.types.Predicate;

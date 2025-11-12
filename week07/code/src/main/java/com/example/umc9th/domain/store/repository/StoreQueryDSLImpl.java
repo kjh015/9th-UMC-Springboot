@@ -1,15 +1,19 @@
 package com.example.umc9th.domain.store.repository;
 
+import com.example.umc9th.domain.store.entity.QLocation;
 import com.example.umc9th.domain.store.entity.QStore;
 import com.example.umc9th.domain.store.entity.Store;
+import com.example.umc9th.domain.store.exception.StoreException;
+import com.example.umc9th.domain.store.exception.code.StoreErrorCode;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Predicate;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -25,6 +29,7 @@ public class StoreQueryDSLImpl implements StoreQueryDSL {
         JPAQueryFactory queryFactory = new JPAQueryFactory(em);
 
         QStore store = QStore.store;
+        QLocation location = QLocation.location;
 
         //3. 정렬 - 최신순, 이름순
         OrderSpecifier<?>[] order;
@@ -38,12 +43,13 @@ public class StoreQueryDSLImpl implements StoreQueryDSL {
             };
         }
         else{
-            order = new OrderSpecifier[]{}; //or Error Response
+            throw new StoreException(StoreErrorCode.SORT_NOT_FOUND);    //Exception 추가
         }
 
         // 4-1. 데이터 목록 조회 (OFFSET 페이징)
         List<Store> results = queryFactory
                 .selectFrom(store)
+                .join(store.location, location).fetchJoin()     //StoreResDTO의 locationId 응답 위해 fetchJoin
                 .where(predicate)
                 .orderBy(order)
                 .offset(pageable.getOffset())
@@ -51,12 +57,13 @@ public class StoreQueryDSLImpl implements StoreQueryDSL {
                 .fetch();
 
         // 4-2. 전체 개수 조회 (카운트 쿼리)
-        Long total = queryFactory
+        JPAQuery<Long> total = queryFactory
                 .select(store.count())
                 .from(store)
-                .where(predicate)
-                .fetchOne();
+                .where(predicate);
+        
+        return PageableExecutionUtils.getPage(results, pageable, total::fetchOne);
 
-        return new PageImpl<>(results, pageable, (total != null) ? total : 0L);
+//        return new PageImpl<>(results, pageable, (total != null) ? total : 0L);
     }
 }

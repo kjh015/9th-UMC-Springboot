@@ -1,6 +1,7 @@
 package com.example.umc9th.domain.review.repository;
 
 import com.example.umc9th.domain.review.entity.Review;
+import com.example.umc9th.domain.review.repository.querydsl.ReviewQueryDSL;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

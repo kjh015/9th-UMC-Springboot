@@ -1,5 +1,7 @@
 package com.example.umc9th.domain.member.service;
 
+import com.example.umc9th.domain.member.exception.MemberException;
+import com.example.umc9th.domain.member.exception.code.MemberErrorCode;
 import com.example.umc9th.domain.member.repository.MemberFoodRepository;
 import com.example.umc9th.domain.member.repository.MemberMissionRepository;
 import com.example.umc9th.domain.member.repository.MemberRepository;
@@ -25,18 +27,19 @@ public class MemberService {
     @Transactional
     public void withdraw(Long memberId) {
         if(!memberRepository.existsById(memberId)) {
-            throw new IllegalArgumentException("해당 회원을 찾을 수 없습니다. id=" + memberId);
+            throw new MemberException(MemberErrorCode.MEMBER_NOT_FOUND);
         }
         memberTermRepository.deleteAllByMemberIdInBatch(memberId);
         memberFoodRepository.deleteAllByMemberIdInBatch(memberId);
         memberMissionRepository.deleteAllByMemberIdInBatch(memberId);
 
         List<Long> reviewIds = reviewRepository.findAllIdsByMemberId(memberId);
-        if(reviewIds != null && !reviewIds.isEmpty()) {
+        if(reviewIds == null || reviewIds.isEmpty()) {
             replyRepository.deleteAllByReviewIdsInBatch(reviewIds);
             reviewRepository.deleteAllByIdsInBatch(reviewIds);
         }
         memberRepository.deleteById(memberId);
+
     }
 
 }
