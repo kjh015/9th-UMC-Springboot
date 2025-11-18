@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="PersistenceUnitSettings">
-    <persistence-units>
-      <persistence-unit moduleName="UMC9th.main" name="UMC9th.main" framework="JPA" ormUnit="UMC9th.main:UMC9th.main" defaultDataSourceId="dcbdca23-19ae-4be0-a90a-840b44eb3f70" />
-    </persistence-units>
-  </component>
-</project>

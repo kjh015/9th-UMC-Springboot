@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="SshConfigs">
-    <configs>
-      <sshConfig host="15.164.110.57" id="cc8e11e6-d331-4239-8fb7-44524f69a4de" keyPath="C:\Users\kjh10\.ssh\john-keypair.pem" port="22" nameFormat="DESCRIPTIVE" username="ubuntu" useOpenSSHConfig="true" />
-    </configs>
-  </component>
-</project>
