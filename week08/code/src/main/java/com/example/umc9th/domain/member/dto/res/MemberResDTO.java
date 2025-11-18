@@ -3,6 +3,8 @@ package com.example.umc9th.domain.member.dto.res;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+
 public class MemberResDTO {
 
     @Getter
@@ -11,5 +13,11 @@ public class MemberResDTO {
         private Long memeberId;
 
     }
+
+    @Builder
+    public record JoinDTO(
+            Long memberId,
+            LocalDateTime createAt
+    ){}
 
 }

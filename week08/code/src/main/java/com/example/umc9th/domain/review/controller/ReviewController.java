@@ -1,16 +1,15 @@
 package com.example.umc9th.domain.review.controller;
 
 import com.example.umc9th.domain.review.converter.ReviewConverter;
+import com.example.umc9th.domain.review.dto.req.ReviewReqDTO;
 import com.example.umc9th.domain.review.dto.res.ReviewResDTO;
 import com.example.umc9th.domain.review.entity.Review;
+import com.example.umc9th.domain.review.exception.code.ReviewSuccessCode;
 import com.example.umc9th.domain.review.service.ReviewQueryService;
 import com.example.umc9th.global.apiPayload.ApiResponse;
 import com.example.umc9th.global.apiPayload.code.GeneralSuccessCode;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -38,5 +37,14 @@ public class ReviewController {
 
         return ApiResponse.onSuccess(code, resultDTO);
 
+    }
+
+    // 리뷰 추가 API
+    @PostMapping("/reviews")
+    public ApiResponse<ReviewResDTO.AddDTO> addReview(@RequestBody ReviewReqDTO.AddDTO dto) {
+        ReviewResDTO.AddDTO result = reviewQueryService.addReview(dto);
+
+        ReviewSuccessCode code = ReviewSuccessCode.OK;
+        return ApiResponse.onSuccess(code, result);
     }
 }

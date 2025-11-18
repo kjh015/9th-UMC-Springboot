@@ -46,11 +46,12 @@ public class Member extends BaseEntity {
     @Builder.Default
     private Address address = Address.NONE;
 
-    @Column(name="detail_address", nullable = false)
+    @Column(name="detail_address")
     private String detailAddress;
 
     @Column(name="point", nullable = false)
-    private Integer point;
+    @Builder.Default
+    private Integer point = 0;
 
     @Column(name="email", nullable = false)
     private String email;

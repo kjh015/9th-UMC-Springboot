@@ -33,6 +33,7 @@ public class StoreController {
         return ApiResponse.onSuccess(code, resultDTO);
     }
 
+    //가게 추가 API
     @PostMapping("/stores")
     public ApiResponse<StoreResDTO.Add> addStore(@RequestBody StoreReqDTO request) {
         Store result = storeService.addStore(request);
