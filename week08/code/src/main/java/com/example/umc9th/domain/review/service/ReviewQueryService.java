@@ -9,6 +9,7 @@ import com.example.umc9th.domain.review.dto.req.ReviewReqDTO;
 import com.example.umc9th.domain.review.dto.res.ReviewResDTO;
 import com.example.umc9th.domain.review.entity.QReview;
 import com.example.umc9th.domain.review.entity.Review;
+import com.example.umc9th.domain.review.repository.ReviewImageRepository;
 import com.example.umc9th.domain.review.repository.ReviewRepository;
 import com.example.umc9th.domain.store.entity.QLocation;
 import com.example.umc9th.domain.store.entity.QStore;
@@ -16,12 +17,17 @@ import com.example.umc9th.domain.store.entity.Store;
 import com.example.umc9th.domain.store.exception.StoreException;
 import com.example.umc9th.domain.store.exception.code.StoreErrorCode;
 import com.example.umc9th.domain.store.repository.StoreRepository;
+import com.example.umc9th.global.aws.s3.AmazonS3Manager;
+import com.example.umc9th.global.entity.Uuid;
+import com.example.umc9th.global.repository.UuidRepository;
 import com.querydsl.core.BooleanBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +35,9 @@ public class ReviewQueryService {
     private final ReviewRepository reviewRepository;
     private final MemberRepository memberRepository;
     private final StoreRepository storeRepository;
+    private final AmazonS3Manager s3Manager;
+    private final UuidRepository uuidRepository;
+    private final ReviewImageRepository reviewImageRepository;
 
     public List<Review> searchReview(String query, String type) {
         QReview review = QReview.review;
@@ -83,15 +92,22 @@ public class ReviewQueryService {
     }
 
     @Transactional
-    public ReviewResDTO.AddDTO addReview(ReviewReqDTO.AddDTO dto) {
+    public ReviewResDTO.AddDTO addReview(ReviewReqDTO.AddDTO dto, MultipartFile reviewPicture) {
         Member member = memberRepository.findById(dto.memberId())
                 .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
 
         Store store = storeRepository.findById(dto.storeId())
                 .orElseThrow(() -> new StoreException(StoreErrorCode.STORE_NOT_FOUND));
 
+        String uuid = UUID.randomUUID().toString();
+        Uuid savedUuid = uuidRepository.save(Uuid.builder()
+                .uuid(uuid).build());
+
+        String pictureUrl = s3Manager.uploadFile(s3Manager.generateReviewKeyName(savedUuid), reviewPicture);
+
         Review review = ReviewConverter.toAddEntity(dto, member, store);
 
+        reviewImageRepository.save(ReviewConverter.toReviewImage(pictureUrl, review));
         Review savedReview = reviewRepository.save(review);
         return ReviewConverter.toAddDTO(savedReview);
     }

@@ -4,6 +4,7 @@ import com.example.umc9th.domain.member.entity.Member;
 import com.example.umc9th.domain.review.dto.req.ReviewReqDTO;
 import com.example.umc9th.domain.review.dto.res.ReviewResDTO;
 import com.example.umc9th.domain.review.entity.Review;
+import com.example.umc9th.domain.review.entity.ReviewImage;
 import com.example.umc9th.domain.store.entity.Store;
 
 public class ReviewConverter {
@@ -33,5 +34,13 @@ public class ReviewConverter {
                 .reviewId(review.getId())
                 .createAt(review.getCreatedAt())
                 .build();
+    }
+
+    public static ReviewImage toReviewImage(String pictureUrl, Review review) {
+        return ReviewImage.builder()
+                .imageUrl(pictureUrl)
+                .review(review)
+                .build();
+
     }
 }

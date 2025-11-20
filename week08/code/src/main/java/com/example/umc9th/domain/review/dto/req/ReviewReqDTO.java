@@ -1,8 +1,6 @@
 package com.example.umc9th.domain.review.dto.req;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 public class ReviewReqDTO {
 
@@ -11,7 +9,8 @@ public class ReviewReqDTO {
             @Size(min = 1, max = 1000)
             String content,
             @NotNull
-            @Size(min = 1, max = 5)
+            @Min(value = 0, message = "별점은 0점 이상이어야 합니다.")
+            @Max(value = 5, message = "별점은 5점 이하여야 합니다.")
             Float star,
             @NotNull
             Long memberId,

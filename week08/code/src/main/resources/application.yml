@@ -18,7 +18,22 @@ spring:
       hibernate:
         format_sql: true # ???? SQL ??? ?? ?? ???
 
+
 alert:
   discord:
     webhook-url: ${DISCORD_WEBHOOK_URL}
     enabled: false
+
+cloud:
+  aws:
+    s3:
+      bucket: umc-john-s3-bucket
+      path:
+        review: reviews
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+    credentials:
+      accessKey: ${AWS_ACCESS_KEY_ID}
+      secretKey: ${AWS_SECRET_ACCESS_KEY}

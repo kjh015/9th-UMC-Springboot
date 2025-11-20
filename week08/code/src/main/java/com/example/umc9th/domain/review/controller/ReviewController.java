@@ -8,8 +8,13 @@ import com.example.umc9th.domain.review.exception.code.ReviewSuccessCode;
 import com.example.umc9th.domain.review.service.ReviewQueryService;
 import com.example.umc9th.global.apiPayload.ApiResponse;
 import com.example.umc9th.global.apiPayload.code.GeneralSuccessCode;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -40,9 +45,17 @@ public class ReviewController {
     }
 
     // 리뷰 추가 API
-    @PostMapping("/reviews")
-    public ApiResponse<ReviewResDTO.AddDTO> addReview(@RequestBody ReviewReqDTO.AddDTO dto) {
-        ReviewResDTO.AddDTO result = reviewQueryService.addReview(dto);
+    @PostMapping(
+            value="/reviews",
+            consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}
+
+    )
+    public ApiResponse<ReviewResDTO.AddDTO> addReview(
+            @Parameter(content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
+            @RequestPart("request") @Valid ReviewReqDTO.AddDTO dto,
+            @RequestPart("reviewPicture")MultipartFile reviewPicture
+            ) {
+        ReviewResDTO.AddDTO result = reviewQueryService.addReview(dto, reviewPicture);
 
         ReviewSuccessCode code = ReviewSuccessCode.OK;
         return ApiResponse.onSuccess(code, result);

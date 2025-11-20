@@ -6,6 +6,7 @@ import com.example.umc9th.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -37,6 +38,9 @@ public class Review extends BaseEntity {
 
     @OneToOne(mappedBy = "review", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private Reply reply;
+
+    @OneToMany(mappedBy = "review", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<ReviewImage> reviewImageList;
 
     @Override
     public boolean equals(Object o) {
