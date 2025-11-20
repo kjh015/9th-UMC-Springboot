@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="3b4ef416-4658-44f3-9d21-561c67647b87" name="변경" comment="week04/ -&gt; week05/ 폴더 변경" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeInsightWorkspaceSettings">
+    <option name="optimizeImportsOnTheFly" value="true" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="UMC9th" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Exception" />
+        <option value="AnnotationType" />
+        <option value="Enum" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;kjh015&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/kjh015/9th-UMC-Springboot.git&quot;,
+    &quot;accountId&quot;: &quot;f8171509-0a63-4603-87a0-f71d63df11f9&quot;
+  }
+}</component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="33VGk35EYai258b5DS0udYIgEDw" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Gradle.UMC9th 빌드.executor": "Run",
+    "Gradle.code 빌드.executor": "Run",
+    "Gradle.소스 다운로드.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "Spring Boot.Umc9thApplication.executor": "Run",
+    "WebServerToolWindowPanel.toolwindow.highlight.mappings": "true",
+    "WebServerToolWindowPanel.toolwindow.highlight.symlinks": "true",
+    "WebServerToolWindowPanel.toolwindow.show.date": "false",
+    "WebServerToolWindowPanel.toolwindow.show.permissions": "false",
+    "WebServerToolWindowPanel.toolwindow.show.size": "false",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/kjh_storage/University/UMC/9th-UMC-Springboot/week08/code",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "editor.preferences.import",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
+    ]
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\kjh_storage\University\UMC\9th-UMC-Springboot\week07\code\src\main\resources" />
+      <recent name="C:\Users\kjh10\IdeaProjects\UMC9th\src\main\java\com\example\umc9th\domain\member" />
+      <recent name="C:\Users\kjh10\IdeaProjects\UMC9th\src\main\java\com\example\umc9th\domain\mission" />
+      <recent name="C:\Users\kjh10\IdeaProjects\UMC9th\src\main\java\com\example\umc9th\domain\review" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.example.umc9th.domain.member.repository" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Umc9thApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="ACTIVE_PROFILES" value="dev" />
+      <envs>
+        <env name="DB_PW" value="1234" />
+        <env name="DB_URL" value="jdbc:mysql://localhost:3306/umcDB" />
+        <env name="DB_USER" value="umc9th" />
+        <env name="DISCORD_WEBHOOK_URL" value="https://discord.com/api/webhooks/1437012090979352627/NtEcAxPk0TvdHszfejvYmIk0JwyVSPCIkhZ4I3UDZXGehZObFEN2Qa_KrJrVmw0-1HoQ" />
+      </envs>
+      <module name="UMC9th.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.umc9th.Umc9thApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.26199.169" />
+        <option value="bundled-js-predefined-d6986cc7102b-9c94529fcfe0-JavaScript-IU-252.26199.169" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="디폴트 작업">
+      <changelist id="3b4ef416-4658-44f3-9d21-561c67647b87" name="변경" comment="" />
+      <created>1759394967632</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1759394967632</updated>
+      <workItem from="1759394968632" duration="14242000" />
+      <workItem from="1759561710114" duration="6890000" />
+      <workItem from="1759651927246" duration="14629000" />
+      <workItem from="1759806540837" duration="5941000" />
+      <workItem from="1759859435713" duration="1349000" />
+      <workItem from="1759995362848" duration="746000" />
+      <workItem from="1760000702799" duration="393000" />
+      <workItem from="1760001598150" duration="5181000" />
+      <workItem from="1760012413933" duration="7504000" />
+      <workItem from="1760256861233" duration="324000" />
+      <workItem from="1760329449674" duration="2523000" />
+      <workItem from="1760410678559" duration="3590000" />
+      <workItem from="1760614278529" duration="1241000" />
+      <workItem from="1761293177685" duration="357000" />
+      <workItem from="1761293654781" duration="5919000" />
+      <workItem from="1761388813501" duration="15178000" />
+      <workItem from="1761910291221" duration="11177000" />
+      <workItem from="1761953410691" duration="22275000" />
+      <workItem from="1762018024355" duration="200000" />
+      <workItem from="1762058492165" duration="3847000" />
+      <workItem from="1762225177967" duration="11480000" />
+      <workItem from="1762503133782" duration="709000" />
+      <workItem from="1762531675922" duration="143000" />
+      <workItem from="1762532028870" duration="34038000" />
+      <workItem from="1762750560167" duration="2075000" />
+      <workItem from="1762830535915" duration="2075000" />
+      <workItem from="1762975814963" duration="2039000" />
+      <workItem from="1762978170907" duration="84000" />
+      <workItem from="1763016257928" duration="12264000" />
+      <workItem from="1763133557126" duration="4303000" />
+      <workItem from="1763281602302" duration="1958000" />
+      <workItem from="1763368814290" duration="2655000" />
+      <workItem from="1763437370852" duration="2800000" />
+      <workItem from="1763476696833" duration="3991000" />
+    </task>
+    <task id="LOCAL-00001" summary="week04/ -&gt; week05/ 폴더 변경">
+      <option name="closed" value="true" />
+      <created>1760086831278</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1760086831279</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="week04/ -&gt; week05/ 폴더 변경" />
+    <option name="LAST_COMMIT_MESSAGE" value="week04/ -&gt; week05/ 폴더 변경" />
+  </component>
+</project>
