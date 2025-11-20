@@ -54,7 +54,8 @@ tasks.named('test') {
 
 // QueryDSL 관련 설정
 // generated/querydsl 폴더 생성 & 삽입
-def querydslDir = layout.buildDirectory.dir("generated/querydsl").get().asFile
+//def querydslDir = layout.buildDirectory.dir("generated/querydsl").get().asFile
+def querydslDir = "src/main/generated"
 
 // 소스 세트에 생성 경로 추가 (구체적인 경로 지정)
 sourceSets {
