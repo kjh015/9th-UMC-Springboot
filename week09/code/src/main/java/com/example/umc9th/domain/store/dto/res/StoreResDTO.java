@@ -3,7 +3,7 @@ package com.example.umc9th.domain.store.dto.res;
 import lombok.Builder;
 import lombok.Getter;
 
-public class StoreResDTO extends BaseResDTO {
+public class StoreResDTO{
 
     @Getter
     @Builder
