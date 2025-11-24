@@ -17,9 +17,15 @@ import com.example.umc9th.domain.store.entity.Store;
 import com.example.umc9th.domain.store.exception.StoreException;
 import com.example.umc9th.domain.store.exception.code.StoreErrorCode;
 import com.example.umc9th.domain.store.repository.StoreRepository;
+import com.example.umc9th.global.dto.PageDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -52,4 +58,20 @@ public class MissionService {
         return MissionConverter.toChallengeDTO(savedMemberMission);
 
     }
+
+    @Transactional(readOnly = true)
+    public PageDTO<MissionResDTO.MissionDTO> getMissions(Long storeId, Pageable pageable){
+        Pageable unsortedPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize());
+        Page<Mission> missions = missionRepository.findByStoreId(storeId, unsortedPageable);
+
+        return PageDTO.of(missions, MissionResDTO.MissionDTO::of);
+    }
+
+    @Transactional(readOnly = true)
+    public PageDTO<MissionResDTO.MissionDTO> getMyMissions(Long memberId, Boolean isCompleted,Pageable pageable){
+        Pageable unsortedPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize());
+        Page<Mission> missions = missionRepository.findByMemberIdAndIsCompleted(memberId, isCompleted, unsortedPageable);
+        return PageDTO.of(missions, MissionResDTO.MissionDTO::of);
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.example.umc9th.domain.member.repository;
 
 import com.example.umc9th.domain.member.entity.mapping.MemberMission;
+import com.example.umc9th.domain.mission.entity.Mission;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,6 +28,9 @@ public interface MemberMissionRepository extends JpaRepository<MemberMission, Lo
     @Query("SELECT COUNT(mm) FROM MemberMission mm " +
             "WHERE mm.member.id = :memberId AND mm.mission.store.location.id = :locationId")
     Long countCompletedMissionsInLocation(Long memberId, Long locationId);
+
+
+
 
 
 }
