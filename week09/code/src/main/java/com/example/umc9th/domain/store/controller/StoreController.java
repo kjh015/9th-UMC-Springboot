@@ -7,6 +7,7 @@ import com.example.umc9th.domain.store.entity.Store;
 import com.example.umc9th.domain.store.service.StoreService;
 import com.example.umc9th.global.apiPayload.ApiResponse;
 import com.example.umc9th.global.apiPayload.code.GeneralSuccessCode;
+import com.example.umc9th.global.dto.PageDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,14 +21,15 @@ public class StoreController {
     private final StoreService storeService;
 
     @GetMapping("/stores/search")
-    public ApiResponse<StoreResDTO.Page<StoreResDTO.Search>> searchStore(@RequestParam List<String> region,
-                                                      @RequestParam String keyword,
-                                                      @RequestParam String sort, Pageable pageable) {
+    public ApiResponse<PageDTO<StoreResDTO.Search>> searchStore(@RequestParam List<String> region,
+                                                                @RequestParam String keyword,
+                                                                @RequestParam String sort, Pageable pageable) {
         //요청URL 예시: /stores/search?region=강남구&keyword=민트 초코&sort=name&page=0&size=10
         //다중검색: ?region=강남구&region=도봉구&region=영등포구
         Page<Store> result = storeService.searchStores(region, keyword, sort, pageable);
 
-        StoreResDTO.Page<StoreResDTO.Search> resultDTO = StoreConverter.toPageDTO(result);
+        PageDTO<StoreResDTO.Search> resultDTO = PageDTO.of(result, StoreConverter::toSearchDTO);
+//                StoreConverter.toPageDTO(result);
         GeneralSuccessCode code = GeneralSuccessCode.OK;
 
         return ApiResponse.onSuccess(code, resultDTO);

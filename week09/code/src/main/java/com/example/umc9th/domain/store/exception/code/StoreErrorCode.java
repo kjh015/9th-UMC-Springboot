@@ -14,6 +14,7 @@ public enum StoreErrorCode implements BaseErrorCode {
     SORT_NOT_FOUND(HttpStatus.BAD_REQUEST, "STORE400_3", "잘못된 요청입니다. 해당하는 정렬이 없습니다."),
     STORE_NOT_FOUND(HttpStatus.BAD_REQUEST, "STORE400_4", "해당하는 가게를 찾지 못했습니다."),
 
+
     ;
 
 

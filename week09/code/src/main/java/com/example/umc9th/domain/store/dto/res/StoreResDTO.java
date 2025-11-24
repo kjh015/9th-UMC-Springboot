@@ -1,6 +1,5 @@
 package com.example.umc9th.domain.store.dto.res;
 
-import com.example.umc9th.global.dto.BaseResDTO;
 import lombok.Builder;
 import lombok.Getter;
 
