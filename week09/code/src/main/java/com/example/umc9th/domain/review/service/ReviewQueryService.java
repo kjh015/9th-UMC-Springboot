@@ -18,6 +18,8 @@ import com.example.umc9th.domain.store.exception.code.StoreErrorCode;
 import com.example.umc9th.domain.store.repository.StoreRepository;
 import com.querydsl.core.BooleanBuilder;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -82,19 +84,9 @@ public class ReviewQueryService {
         return reviewList;
     }
 
-    @Transactional
-    public ReviewResDTO.AddDTO addReview(ReviewReqDTO.AddDTO dto) {
-        Member member = memberRepository.findById(dto.memberId())
-                .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
 
-        Store store = storeRepository.findById(dto.storeId())
-                .orElseThrow(() -> new StoreException(StoreErrorCode.STORE_NOT_FOUND));
 
-        Review review = ReviewConverter.toAddEntity(dto, member, store);
 
-        Review savedReview = reviewRepository.save(review);
-        return ReviewConverter.toAddDTO(savedReview);
-    }
 
 
 

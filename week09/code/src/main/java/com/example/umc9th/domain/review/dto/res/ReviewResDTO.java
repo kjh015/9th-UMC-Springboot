@@ -3,7 +3,9 @@ package com.example.umc9th.domain.review.dto.res;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class ReviewResDTO {
 
@@ -23,6 +25,26 @@ public class ReviewResDTO {
             Long reviewId,
             LocalDateTime createAt
     ){}
+
+    @Builder
+    public record ReviewPreViewListDTO(
+            List<ReviewPreViewDTO> reviewList,
+            Integer listSize,
+            Integer totalPage,
+            Long totalElements,
+            Boolean isFirst,
+            Boolean isLast
+    ){}
+
+    @Builder
+    public record ReviewPreViewDTO(
+            String ownerNickname,
+            Float score,
+            String body,
+            LocalDate createdAt
+    ){}
+
+
 
 
 }
