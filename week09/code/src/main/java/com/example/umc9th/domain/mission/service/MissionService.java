@@ -61,7 +61,7 @@ public class MissionService {
 
     @Transactional(readOnly = true)
     public PageDTO<MissionResDTO.MissionDTO> getMissions(Long storeId, Pageable pageable){
-        Pageable unsortedPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize());
+        Pageable unsortedPageable = PageRequest.of(pageable.getPageNumber() - 1, pageable.getPageSize());
         Page<Mission> missions = missionRepository.findByStoreId(storeId, unsortedPageable);
 
         return PageDTO.of(missions, MissionResDTO.MissionDTO::of);
@@ -69,7 +69,7 @@ public class MissionService {
 
     @Transactional(readOnly = true)
     public PageDTO<MissionResDTO.MissionDTO> getMyMissions(Long memberId, Boolean isCompleted,Pageable pageable){
-        Pageable unsortedPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize());
+        Pageable unsortedPageable = PageRequest.of(pageable.getPageNumber() - 1, pageable.getPageSize());
         Page<Mission> missions = missionRepository.findByMemberIdAndIsCompleted(memberId, isCompleted, unsortedPageable);
         return PageDTO.of(missions, MissionResDTO.MissionDTO::of);
     }

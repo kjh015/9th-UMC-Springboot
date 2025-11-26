@@ -60,7 +60,7 @@ public class ReviewService {
     @Transactional(readOnly = true)
     public PageDTO<ReviewResDTO.ReviewPreViewDTO> getMyReviews(Long memberId, Pageable pageable){
         //sort값 무시
-        Pageable unsortedPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize());
+        Pageable unsortedPageable = PageRequest.of(pageable.getPageNumber() - 1, pageable.getPageSize());
         Page<Review> reviews = reviewRepository.findByMemberId(memberId, unsortedPageable);
 
         return PageDTO.of(reviews, ReviewConverter::toReviewPreviewDTO);

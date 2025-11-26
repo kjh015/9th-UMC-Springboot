@@ -28,7 +28,7 @@ public record PageDTO<T>(
     public static <T> PageDTO<T> of(Page<T> pageData) {
         return new PageDTO<>(
                 pageData.getContent(),
-                pageData.getNumber(),
+                pageData.getNumber() + 1,   //page 1부터 시작
                 pageData.getSize(),
                 pageData.getTotalElements(),
                 pageData.getTotalPages(),
@@ -54,7 +54,7 @@ public record PageDTO<T>(
 
         return new PageDTO<>(
                 content,
-                pageData.getNumber(),
+                pageData.getNumber() + 1,   //page 1부터 시작
                 pageData.getSize(),
                 pageData.getTotalElements(),
                 pageData.getTotalPages(),
