@@ -12,8 +12,10 @@ import com.example.umc9th.domain.member.exception.code.MemberErrorCode;
 import com.example.umc9th.domain.member.repository.*;
 import com.example.umc9th.domain.review.repository.ReplyRepository;
 import com.example.umc9th.domain.review.repository.ReviewRepository;
+import com.example.umc9th.global.auth.enums.Role;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,6 +31,8 @@ public class MemberService {
     private final ReviewRepository reviewRepository;
     private final ReplyRepository replyRepository;
     private final FoodRepository foodRepository;
+
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public void withdraw(Long memberId) {
@@ -50,8 +54,9 @@ public class MemberService {
 
     @Transactional
     public MemberResDTO.JoinDTO signup(MemberReqDTO.JoinDTO dto){
+        String salt = passwordEncoder.encode(dto.password());
         // 사용자 생성
-        Member member = MemberConverter.toMember(dto);
+        Member member = MemberConverter.toMember(dto, salt, Role.ROLE_USER);
         // DB 적용
         memberRepository.save(member);
 

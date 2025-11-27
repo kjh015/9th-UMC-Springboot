@@ -6,6 +6,7 @@ import com.example.umc9th.domain.member.enums.Address;
 import com.example.umc9th.domain.member.enums.Gender;
 import com.example.umc9th.domain.member.entity.mapping.MemberMission;
 import com.example.umc9th.domain.review.entity.Review;
+import com.example.umc9th.global.auth.enums.Role;
 import com.example.umc9th.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -53,7 +54,7 @@ public class Member extends BaseEntity {
     @Builder.Default
     private Integer point = 0;
 
-    @Column(name="email", nullable = false)
+    @Column(name="email", nullable = false, unique = true)
     private String email;
 
     @Column(name="phone_number")
@@ -61,6 +62,9 @@ public class Member extends BaseEntity {
 
     @Column(name = "delete_at")
     private LocalDateTime deletedAt;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @OneToMany(mappedBy = "member", orphanRemoval = true)
     private Set<MemberFood> memberFoodList = new HashSet<>();
