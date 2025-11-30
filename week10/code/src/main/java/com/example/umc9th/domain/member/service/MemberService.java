@@ -4,6 +4,7 @@ import com.example.umc9th.domain.member.converter.MemberConverter;
 import com.example.umc9th.domain.member.dto.req.MemberReqDTO;
 import com.example.umc9th.domain.member.dto.res.MemberResDTO;
 import com.example.umc9th.domain.member.entity.Member;
+import com.example.umc9th.domain.member.entity.RefreshToken;
 import com.example.umc9th.domain.member.entity.mapping.MemberFood;
 import com.example.umc9th.domain.member.exception.FoodException;
 import com.example.umc9th.domain.member.exception.MemberException;
@@ -23,7 +24,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.swing.text.html.Option;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,6 +40,7 @@ public class MemberService {
     private final ReviewRepository reviewRepository;
     private final ReplyRepository replyRepository;
     private final FoodRepository foodRepository;
+    private final RefreshTokenRepository refreshTokenRepository;
 
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
@@ -104,9 +109,12 @@ public class MemberService {
 
         // 엑세스 토큰 발급
         String accessToken = jwtUtil.createAccessToken(userDetails);
+        String refreshToken = jwtUtil.createRefreshToken(userDetails);
+
+        saveOrUpdateRefreshToken(member, refreshToken);
 
         // DTO 조립
-        return MemberConverter.toLoginDTO(member, accessToken);
+        return MemberConverter.toLoginDTO(member, accessToken, refreshToken);
     }
 
     @Transactional
@@ -131,9 +139,29 @@ public class MemberService {
         // 2. 우리 서비스의 JWT 토큰 발급
         CustomUserDetails userDetails = new CustomUserDetails(member);
         String accessToken = jwtUtil.createAccessToken(userDetails);
-//        String refreshToken = jwtUtil.createRefreshToken(member.getId());
+        String refreshToken = jwtUtil.createRefreshToken(userDetails);
+
+        saveOrUpdateRefreshToken(member, refreshToken);
+
+
 
         // 3. 결과 반환
-        return MemberConverter.toLoginDTO(member, accessToken);
+        return MemberConverter.toLoginDTO(member, accessToken, refreshToken);
+    }
+
+    private void saveOrUpdateRefreshToken(Member member, String refreshToken){
+        Optional<RefreshToken> existingTokenEntity = refreshTokenRepository.findByMemberId(member.getId());
+        if(existingTokenEntity.isPresent()) {
+            existingTokenEntity.get().update(refreshToken, LocalDateTime.now().plusDays(7));
+        }
+        else{
+            RefreshToken newTokenEntity = RefreshToken.builder()
+                    .member(member)
+                    .refreshToken(refreshToken)
+                    .expiryDate(LocalDateTime.now().plusDays(7))
+                    .build();
+            refreshTokenRepository.save(newTokenEntity);
+        }
+
     }
 }

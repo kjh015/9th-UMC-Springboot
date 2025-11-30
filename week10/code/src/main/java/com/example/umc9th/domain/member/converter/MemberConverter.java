@@ -35,10 +35,11 @@ public class MemberConverter {
                 .build();
     }
 
-    public static MemberResDTO.LoginDTO toLoginDTO(Member member, String accessToken) {
+    public static MemberResDTO.LoginDTO toLoginDTO(Member member, String accessToken, String refreshToken) {
         return MemberResDTO.LoginDTO.builder()
                 .memberId(member.getId())
                 .accessToken(accessToken)
+                .refreshToken(refreshToken)
                 .build();
     }
 }
