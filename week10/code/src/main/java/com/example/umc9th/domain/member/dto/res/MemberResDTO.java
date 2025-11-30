@@ -28,4 +28,15 @@ public class MemberResDTO {
             String refreshToken
     ){}
 
+    @Builder
+    public record ReissueDTO(
+            String accessToken
+    ){
+        public static ReissueDTO of(String accessToken){
+            return ReissueDTO.builder()
+                    .accessToken(accessToken)
+                    .build();
+        }
+    }
+
 }

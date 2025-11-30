@@ -7,14 +7,17 @@ import com.example.umc9th.domain.member.exception.code.MemberSuccessCode;
 import com.example.umc9th.domain.member.service.MemberService;
 import com.example.umc9th.global.apiPayload.ApiResponse;
 import com.example.umc9th.global.apiPayload.code.GeneralSuccessCode;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Duration;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -55,6 +58,16 @@ public class MemberController {
         response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 
         return ApiResponse.onSuccess(MemberSuccessCode.FOUND, result);
+    }
+
+    @PostMapping("/refresh")
+    public ApiResponse<MemberResDTO.ReissueDTO> refreshToken(HttpServletRequest request) {
+        // Cookie에서 refreshToken 조회
+        String refreshToken = memberService.getCookieValue(request, "refreshToken");
+
+        // accessToken 재발급
+        MemberResDTO.ReissueDTO token = memberService.reissueToken(refreshToken);
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, token);
     }
 
 }

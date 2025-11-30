@@ -17,6 +17,8 @@ import com.example.umc9th.global.auth.details.CustomUserDetails;
 import com.example.umc9th.global.auth.dto.KakaoResDTO;
 import com.example.umc9th.global.auth.enums.Role;
 import com.example.umc9th.global.auth.token.JwtUtil;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.User;
@@ -27,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.swing.text.html.Option;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -163,5 +166,34 @@ public class MemberService {
             refreshTokenRepository.save(newTokenEntity);
         }
 
+    }
+
+    public MemberResDTO.ReissueDTO reissueToken(String refreshToken) {
+        // 1. 토큰 유효성 검사 (JWT 서명/만료)
+        if (!jwtUtil.isValid(refreshToken)) {
+            throw new MemberException(MemberErrorCode.TOKEN_INVALID);
+        }
+
+        // 2. 토큰 값으로 DB 조회
+        RefreshToken savedToken = refreshTokenRepository.findByRefreshToken(refreshToken)
+                .orElseThrow(() -> new MemberException(MemberErrorCode.TOKEN_INVALID));
+
+        // 3. Member 조회
+        Member member = savedToken.getMember();
+
+        // 엑세스 토큰 발급
+        String accessToken = jwtUtil.createAccessToken(new CustomUserDetails(member));
+
+        return MemberResDTO.ReissueDTO.of(accessToken);
+    }
+
+    public String getCookieValue(HttpServletRequest request, String name) {
+        if (request.getCookies() == null) return null;
+        for (Cookie cookie : request.getCookies()) {
+            if (name.equals(cookie.getName())) {
+                return cookie.getValue();
+            }
+        }
+        return null;
     }
 }
