@@ -25,8 +25,9 @@ public class SecurityConfig {
     private final CustomUserDetailsService customUserDetailsService;
 
     private final String[] allowUris = {
-            "/api/auth/login",
-            "/api/auth/sign-up",
+            "/api/member/login",
+            "/api/member/sign-up",
+            "/api/auth/kakao/callback",
             "/swagger-ui/**",
             "/swagger-resources/**",
             "/v3/api-docs/**",

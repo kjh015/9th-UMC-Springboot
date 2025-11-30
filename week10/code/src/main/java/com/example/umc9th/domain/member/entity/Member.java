@@ -5,6 +5,7 @@ import com.example.umc9th.domain.member.entity.mapping.MemberTerm;
 import com.example.umc9th.domain.member.enums.Address;
 import com.example.umc9th.domain.member.enums.Gender;
 import com.example.umc9th.domain.member.entity.mapping.MemberMission;
+import com.example.umc9th.domain.member.enums.SocialType;
 import com.example.umc9th.domain.review.entity.Review;
 import com.example.umc9th.global.auth.enums.Role;
 import com.example.umc9th.global.entity.BaseEntity;
@@ -28,21 +29,21 @@ public class Member extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="name", length = 3, nullable = false)
+    @Column(name="name", length = 3)
     private String name;
 
-    @Column(name="gender", nullable = false)
+    @Column(name="gender")
     @Enumerated(EnumType.STRING)
     @Builder.Default
     private Gender gender = Gender.NONE;
 
-    @Column(name="birth", nullable = false)
+    @Column(name="birth")
     private LocalDate birth;
 
-    @Column(name="password", nullable = false)
+    @Column(name="password")
     private String password;
 
-    @Column(name="address", nullable = false)
+    @Column(name="address")
     @Enumerated(EnumType.STRING)
     @Builder.Default
     private Address address = Address.NONE;
@@ -50,12 +51,20 @@ public class Member extends BaseEntity {
     @Column(name="detail_address")
     private String detailAddress;
 
-    @Column(name="point", nullable = false)
+    @Column(name="point")
     @Builder.Default
     private Integer point = 0;
 
     @Column(name="email", nullable = false, unique = true)
     private String email;
+
+    //소셜 로그인
+    @Column(unique = true)
+    private Long socialUid;
+
+    @Enumerated(EnumType.STRING)
+    private SocialType socialType;
+    //
 
     @Column(name="phone_number")
     private String phoneNumber;

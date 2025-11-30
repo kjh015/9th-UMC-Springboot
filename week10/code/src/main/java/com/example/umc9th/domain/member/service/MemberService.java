@@ -13,13 +13,15 @@ import com.example.umc9th.domain.member.repository.*;
 import com.example.umc9th.domain.review.repository.ReplyRepository;
 import com.example.umc9th.domain.review.repository.ReviewRepository;
 import com.example.umc9th.global.auth.details.CustomUserDetails;
+import com.example.umc9th.global.auth.dto.KakaoResDTO;
 import com.example.umc9th.global.auth.enums.Role;
 import com.example.umc9th.global.auth.token.JwtUtil;
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -83,6 +85,7 @@ public class MemberService {
         return MemberConverter.toJoinDTO(member);
     }
 
+    @Transactional
     public MemberResDTO.LoginDTO login(
             MemberReqDTO.@Valid LoginDTO dto
     ) {
@@ -103,6 +106,34 @@ public class MemberService {
         String accessToken = jwtUtil.createAccessToken(userDetails);
 
         // DTO 조립
+        return MemberConverter.toLoginDTO(member, accessToken);
+    }
+
+    @Transactional
+    public MemberResDTO.LoginDTO loginOrSignup(KakaoResDTO.UserInfoDTO kakaoUserInfo) {
+
+        Long kakaoId = kakaoUserInfo.id();
+        String email = kakaoUserInfo.kakaoAccount().email();
+
+        // 1. DB에서 카카오 ID로 회원 조회, 없으면 새로 생성
+        Member member = memberRepository.findBySocialUid(kakaoId)
+                .orElseGet(() -> {
+                    // 신규 회원가입
+                    Member newMember = Member.builder()
+                            .socialUid(kakaoId)
+                            .email(email)
+                            .role(Role.ROLE_USER)
+                            .build();
+                    return memberRepository.save(newMember);
+                });
+
+
+        // 2. 우리 서비스의 JWT 토큰 발급
+        CustomUserDetails userDetails = new CustomUserDetails(member);
+        String accessToken = jwtUtil.createAccessToken(userDetails);
+//        String refreshToken = jwtUtil.createRefreshToken(member.getId());
+
+        // 3. 결과 반환
         return MemberConverter.toLoginDTO(member, accessToken);
     }
 }

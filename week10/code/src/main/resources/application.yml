@@ -28,3 +28,9 @@ jwt:
     secretKey: ZGh3YWlkc2F2ZXdhZXZ3b2EgMTM5ZXUgMDMxdWMyIHEyMiBAIDAgKTJFVio=
     expiration:
       access: 14400000
+
+kakao:
+  client-id: "fc96b5b695d36b6cd576b67c9fdf0085"
+  redirect-uri: "http://localhost:8080/api/auth/kakao/callback"
+  token-uri: "https://kauth.kakao.com/oauth/token"
+  user-info-uri: "https://kapi.kakao.com/v2/user/me"

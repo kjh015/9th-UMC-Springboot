@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/auth")
+@RequestMapping("/api/member")
 public class MemberController {
     private final MemberService memberService;
 
-    @DeleteMapping("/member/{memberId}")
+    @DeleteMapping("/{memberId}")
     public ApiResponse<MemberResDTO.Delete> deleteMember(@PathVariable Long memberId) {
         memberService.withdraw(memberId);
 
