@@ -12,8 +12,11 @@ import com.example.umc9th.domain.member.exception.code.MemberErrorCode;
 import com.example.umc9th.domain.member.repository.*;
 import com.example.umc9th.domain.review.repository.ReplyRepository;
 import com.example.umc9th.domain.review.repository.ReviewRepository;
+import com.example.umc9th.global.auth.details.CustomUserDetails;
 import com.example.umc9th.global.auth.enums.Role;
+import com.example.umc9th.global.auth.token.JwtUtil;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -33,6 +36,7 @@ public class MemberService {
     private final FoodRepository foodRepository;
 
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
     @Transactional
     public void withdraw(Long memberId) {
@@ -79,4 +83,26 @@ public class MemberService {
         return MemberConverter.toJoinDTO(member);
     }
 
+    public MemberResDTO.LoginDTO login(
+            MemberReqDTO.@Valid LoginDTO dto
+    ) {
+
+        // Member 조회
+        Member member = memberRepository.findByEmail(dto.email())
+                .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
+
+        // 비밀번호 검증
+        if (!passwordEncoder.matches(dto.password(), member.getPassword())){
+            throw new MemberException(MemberErrorCode.INVALID);
+        }
+
+        // JWT 토큰 발급용 UserDetails
+        CustomUserDetails userDetails = new CustomUserDetails(member);
+
+        // 엑세스 토큰 발급
+        String accessToken = jwtUtil.createAccessToken(userDetails);
+
+        // DTO 조립
+        return MemberConverter.toLoginDTO(member, accessToken);
+    }
 }

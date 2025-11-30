@@ -22,3 +22,9 @@ alert:
   discord:
     webhook-url: ${DISCORD_WEBHOOK_URL}
     enabled: false
+
+jwt:
+  token:
+    secretKey: ZGh3YWlkc2F2ZXdhZXZ3b2EgMTM5ZXUgMDMxdWMyIHEyMiBAIDAgKTJFVio=
+    expiration:
+      access: 14400000
