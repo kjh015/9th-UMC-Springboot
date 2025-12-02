@@ -70,4 +70,20 @@ public class MemberController {
         return ApiResponse.onSuccess(GeneralSuccessCode.OK, token);
     }
 
+    @PostMapping("/logout")
+    public ApiResponse<Void> logout(HttpServletRequest request, HttpServletResponse response) {
+        String refreshToken = memberService.getCookieValue(request, "refreshToken");
+        memberService.logout(refreshToken);
+
+        ResponseCookie deleteCookie = ResponseCookie.from("refreshToken", "")
+                .httpOnly(true)
+                .secure(false)
+                .path("/")
+                .maxAge(0)
+                .build();
+        response.addHeader(HttpHeaders.SET_COOKIE, deleteCookie.toString());
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, null);
+    }
+
+
 }

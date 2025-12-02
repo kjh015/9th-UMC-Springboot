@@ -152,6 +152,7 @@ public class MemberService {
         return MemberConverter.toLoginDTO(member, accessToken, refreshToken);
     }
 
+
     private void saveOrUpdateRefreshToken(Member member, String refreshToken){
         Optional<RefreshToken> existingTokenEntity = refreshTokenRepository.findByMemberId(member.getId());
         if(existingTokenEntity.isPresent()) {
@@ -168,6 +169,14 @@ public class MemberService {
 
     }
 
+    @Transactional
+    public void logout(String refreshToken) {
+        if (refreshToken != null && jwtUtil.isValid(refreshToken)) {
+            refreshTokenRepository.deleteByRefreshToken(refreshToken);
+        }
+    }
+
+    @Transactional
     public MemberResDTO.ReissueDTO reissueToken(String refreshToken) {
         // 1. 토큰 유효성 검사 (JWT 서명/만료)
         if (!jwtUtil.isValid(refreshToken)) {
@@ -196,4 +205,6 @@ public class MemberService {
         }
         return null;
     }
+
+
 }
