@@ -46,7 +46,10 @@ public class MemberController {
             @RequestBody @Valid MemberReqDTO.LoginDTO dto,
             HttpServletResponse response
     ){
-        MemberResDTO.LoginDTO result =  memberService.login(dto);
+        MemberResDTO.LoginTokenDTO result =  memberService.login(dto);
+
+        // AccessToken을 Header에 설정
+        response.setHeader("Authorization", "Bearer " + result.accessToken());
 
         // RefreshToken을 HttpOnly 쿠키로 설정
         ResponseCookie cookie = ResponseCookie.from("refreshToken", result.refreshToken())
@@ -57,17 +60,20 @@ public class MemberController {
                 .build();
         response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 
-        return ApiResponse.onSuccess(MemberSuccessCode.FOUND, result);
+        return ApiResponse.onSuccess(MemberSuccessCode.FOUND, MemberResDTO.LoginDTO.of(result.member()));
     }
 
     @PostMapping("/refresh")
-    public ApiResponse<MemberResDTO.ReissueDTO> refreshToken(HttpServletRequest request) {
+    public ApiResponse<Void> refreshToken(HttpServletRequest request, HttpServletResponse response) {
         // Cookie에서 refreshToken 조회
         String refreshToken = memberService.getCookieValue(request, "refreshToken");
 
         // accessToken 재발급
         MemberResDTO.ReissueDTO token = memberService.reissueToken(refreshToken);
-        return ApiResponse.onSuccess(GeneralSuccessCode.OK, token);
+
+        // AccessToken을 Header에 설정
+        response.setHeader("Authorization", "Bearer " + token.accessToken());
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, null);
     }
 
     @PostMapping("/logout")

@@ -94,7 +94,7 @@ public class MemberService {
     }
 
     @Transactional
-    public MemberResDTO.LoginDTO login(
+    public MemberResDTO.LoginTokenDTO login(
             MemberReqDTO.@Valid LoginDTO dto
     ) {
 
@@ -117,11 +117,11 @@ public class MemberService {
         saveOrUpdateRefreshToken(member, refreshToken);
 
         // DTO 조립
-        return MemberConverter.toLoginDTO(member, accessToken, refreshToken);
+        return MemberResDTO.LoginTokenDTO.of(member, accessToken, refreshToken);
     }
 
     @Transactional
-    public MemberResDTO.LoginDTO loginOrSignup(KakaoResDTO.UserInfoDTO kakaoUserInfo) {
+    public MemberResDTO.LoginTokenDTO loginOrSignup(KakaoResDTO.UserInfoDTO kakaoUserInfo) {
 
         Long kakaoId = kakaoUserInfo.id();
         String email = kakaoUserInfo.kakaoAccount().email();
@@ -149,7 +149,7 @@ public class MemberService {
 
 
         // 3. 결과 반환
-        return MemberConverter.toLoginDTO(member, accessToken, refreshToken);
+        return MemberResDTO.LoginTokenDTO.of(member, accessToken, refreshToken);
     }
 
 

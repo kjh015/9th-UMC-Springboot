@@ -1,5 +1,6 @@
 package com.example.umc9th.domain.member.dto.res;
 
+import com.example.umc9th.domain.member.entity.Member;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -23,10 +24,29 @@ public class MemberResDTO {
     // 로그인
     @Builder
     public record LoginDTO(
-            Long memberId,
+            Long memberId
+    ){
+        public static LoginDTO of(Member member) {
+            return LoginDTO.builder()
+                    .memberId(member.getId())
+                    .build();
+        }
+    }
+
+    @Builder
+    public record LoginTokenDTO(
+            Member member,
             String accessToken,
             String refreshToken
-    ){}
+    ){
+        public static LoginTokenDTO of(Member member, String accessToken, String refreshToken) {
+            return LoginTokenDTO.builder()
+                    .member(member)
+                    .accessToken(accessToken)
+                    .refreshToken(refreshToken)
+                    .build();
+        }
+    }
 
     @Builder
     public record ReissueDTO(
