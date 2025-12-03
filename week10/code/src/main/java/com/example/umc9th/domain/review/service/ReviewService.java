@@ -43,18 +43,18 @@ public class ReviewService {
     }
 
     @Transactional
-    public ReviewResDTO.ReviewPreViewListDTO findReview(String storeName, Integer page){
+    public PageDTO<ReviewResDTO.ReviewPreViewDTO> findReview(String storeName, Pageable pageable){
         // - 가게를 가져온다 (가게 존재 여부 검증)
         Store store = storeRepository.findByName(storeName)
                 //    - 없으면 예외 터뜨린다
                 .orElseThrow(() -> new StoreException(StoreErrorCode.STORE_NOT_FOUND));
 
         //- 가게에 맞는 리뷰를 가져온다 (Offset 페이징)
-        PageRequest pageRequest = PageRequest.of(page, 5);
-        Page<Review> result = reviewRepository.findAllByStore(store, pageRequest);
+        Pageable unsortedPageable = PageRequest.of(pageable.getPageNumber() - 1, pageable.getPageSize());
+        Page<Review> result = reviewRepository.findAllByStore(store, unsortedPageable);
 
         //- 결과를 응답 DTO로 변환한다 (컨버터 이용)
-        return ReviewConverter.toReviewPreviewListDTO(result);
+        return PageDTO.of(result, ReviewConverter::toReviewPreviewDTO);
     }
 
     @Transactional(readOnly = true)

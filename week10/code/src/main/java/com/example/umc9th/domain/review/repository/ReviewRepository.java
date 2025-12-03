@@ -23,7 +23,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long>, ReviewQue
     void deleteAllByIdsInBatch(@Param("reviewIds") List<Long> reviewIds);
 
 
-    Page<Review> findAllByStore(Store store, PageRequest pageRequest);
+    Page<Review> findAllByStore(Store store, Pageable pageable);
 
     Page<Review> findByMemberId(Long memberId, Pageable pageable);
 }

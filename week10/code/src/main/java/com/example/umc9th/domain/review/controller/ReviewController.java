@@ -66,10 +66,10 @@ public class ReviewController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "실패")
     })
     @GetMapping("/reviews")
-    public ApiResponse<ReviewResDTO.ReviewPreViewListDTO> getReviews(@RequestParam String storeName, @RequestParam(defaultValue = "1") Integer page) {
+    public ApiResponse<PageDTO<ReviewResDTO.ReviewPreViewDTO>> getReviews(@RequestParam String storeName, @Valid @ValidPage Pageable pageable) {
 
         ReviewSuccessCode code = ReviewSuccessCode.FOUND;
-        return ApiResponse.onSuccess(code, reviewService.findReview(storeName, page));
+        return ApiResponse.onSuccess(code, reviewService.findReview(storeName, pageable));
     }
 
     // 내가 작성한 리뷰 목록 (11.25)
